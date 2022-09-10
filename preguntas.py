@@ -96,7 +96,8 @@ def pregunta_06():
     ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
     """
-    return
+    letras=sorted(df1['_c4'].str.upper().drop_duplicates().to_list(),reverse=False)
+    return letras
 
 
 def pregunta_07():
@@ -112,7 +113,8 @@ def pregunta_07():
     E    67
     Name: _c2, dtype: int64
     """
-    return
+    rta=df0.groupby(['_c1'])['_c2'].sum()
+    return rta
 
 
 def pregunta_08():
@@ -130,7 +132,8 @@ def pregunta_08():
     39   39   E    5  1998-01-26    44
 
     """
-    return
+    df0['suma']=df0['_c0']+df0['_c2']
+    return df0
 
 
 def pregunta_09():
@@ -146,9 +149,10 @@ def pregunta_09():
     37   37   C    9  1997-07-22  1997
     38   38   E    1  1999-09-28  1999
     39   39   E    5  1998-01-26  1998
-
     """
-    return
+    df0['year']=df0['_c3'].str.slice(start=0,stop=4)
+    print(df0.head(3))
+    print(df0.tail(3))
 
 
 def pregunta_10():
@@ -165,7 +169,21 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    return
+    letras=sorted(df0['_c1'].drop_duplicates().to_list(),reverse=False)
+    cols=[]
+    for i in letras:
+        col1=None
+        col1=[]
+        for j in range(0,len(df0)):            
+            if df0.loc[j,'_c1']==i:
+                col1.append(str(df0.loc[j,'_c2']))
+        col1=':'.join(sorted(col1,reverse=False))
+        lista=[i,col1]
+        cols.append(lista)
+    df=pd.DataFrame(cols)
+    df.set_axis(['_c0','_c1'],axis=1,inplace=True)     
+    
+    return df
 
 
 def pregunta_11():
@@ -184,7 +202,20 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    return
+    nums=sorted(df1['_c0'].drop_duplicates().to_list(),reverse=False)
+    cols=[]
+    for i in nums:
+        col1=None
+        col1=[]
+        for j in range(0,len(df1)):
+            if i==df1.loc[j,'_c0']:
+                col1.append(df1.loc[j,'_c4'])
+        col1=','.join(sorted(col1,reverse=False))
+        lista=[i,col1]
+        cols.append(lista)
+    df=pd.DataFrame(cols)
+    df.set_axis(['_c0','_c4'],axis=1,inplace=True)   
+    return df
 
 
 def pregunta_12():
@@ -202,7 +233,7 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
-    return
+    pass
 
 
 def pregunta_13():
@@ -219,4 +250,4 @@ def pregunta_13():
     E    275
     Name: _c5b, dtype: int64
     """
-    return
+    pass
