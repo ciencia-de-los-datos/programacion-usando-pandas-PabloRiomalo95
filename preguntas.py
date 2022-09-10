@@ -151,9 +151,7 @@ def pregunta_09():
     39   39   E    5  1998-01-26  1998
     """
     df0['year']=df0['_c3'].str.slice(start=0,stop=4)
-    print(df0.head(3))
-    print(df0.tail(3))
-
+    return df0
 
 def pregunta_10():
     """
