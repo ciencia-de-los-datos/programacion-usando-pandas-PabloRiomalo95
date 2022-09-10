@@ -153,6 +153,7 @@ def pregunta_09():
     df0['year']=df0['_c3'].str.slice(start=0,stop=4)
     return df0
 
+
 def pregunta_10():
     """
     Construya una tabla que contenga _c1 y una lista separada por ':' de los valores de
@@ -167,20 +168,11 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    # letras=sorted(df0['_c1'].drop_duplicates().to_list(),reverse=False)
-    # cols=[]
-    # for i in letras:
-    #     col1=None
-    #     col1=[]
-    #     for j in range(0,len(df0)):            
-    #         if df0.loc[j,'_c1']==i:
-    #             col1.append(str(df0.loc[j,'_c2']))
-    #     col1=':'.join(sorted(col1,reverse=False))
-    #     lista=[i,col1]
-    #     cols.append(lista)
-    # df=pd.DataFrame(cols)
-    # df.set_axis(['_c0','_c1'],axis=1,inplace=True)     
-    # return df
+    df_x=df0[['_c1','_c2']]
+    df_x.rename(columns={'_c1':'_c0','_c2':'_c1'},inplace=True)
+    df=df_x.groupby(['_c0']).agg({'_c1': lambda x: sorted(x.tolist(),reverse=False)})
+    df['_c1']=[':'.join(map(str, e)) for e in df['_c1']] 
+    return df
 
 
 def pregunta_11():
