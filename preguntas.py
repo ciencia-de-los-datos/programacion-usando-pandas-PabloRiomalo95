@@ -9,9 +9,9 @@ Utilice los archivos `tbl0.tsv`, `tbl1.tsv` y `tbl2.tsv`, para resolver las preg
 """
 import pandas as pd
 
-tbl0 = pd.read_csv("tbl0.tsv", sep="\t")
-tbl1 = pd.read_csv("tbl1.tsv", sep="\t")
-tbl2 = pd.read_csv("tbl2.tsv", sep="\t")
+df0 = pd.read_csv("tbl0.tsv", sep="\t")
+df1 = pd.read_csv("tbl1.tsv", sep="\t")
+df2 = pd.read_csv("tbl2.tsv", sep="\t")
 
 
 def pregunta_01():
@@ -20,9 +20,9 @@ def pregunta_01():
 
     Rta/
     40
-
     """
-    return
+    rows=df0.shape[0]
+    return rows
 
 
 def pregunta_02():
@@ -31,9 +31,9 @@ def pregunta_02():
 
     Rta/
     4
-
     """
-    return
+    columnas=df0.shape[1]
+    return columnas
 
 
 def pregunta_03():
@@ -48,9 +48,9 @@ def pregunta_03():
     D     6
     E    14
     Name: _c1, dtype: int64
-
     """
-    return
+    col1=df0.groupby(['_c1'])['_c1'].count()
+    return col1
 
 
 def pregunta_04():
@@ -65,7 +65,8 @@ def pregunta_04():
     E    4.785714
     Name: _c2, dtype: float64
     """
-    return
+    promedio=df0.groupby(['_c1'])['_c2'].mean()
+    return promedio
 
 
 def pregunta_05():
@@ -82,7 +83,8 @@ def pregunta_05():
     E    9
     Name: _c2, dtype: int64
     """
-    return
+    maximo=df0.groupby(['_c1'])['_c2'].max()
+    return maximo
 
 
 def pregunta_06():
