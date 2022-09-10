@@ -167,21 +167,20 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    letras=sorted(df0['_c1'].drop_duplicates().to_list(),reverse=False)
-    cols=[]
-    for i in letras:
-        col1=None
-        col1=[]
-        for j in range(0,len(df0)):            
-            if df0.loc[j,'_c1']==i:
-                col1.append(str(df0.loc[j,'_c2']))
-        col1=':'.join(sorted(col1,reverse=False))
-        lista=[i,col1]
-        cols.append(lista)
-    df=pd.DataFrame(cols)
-    df.set_axis(['_c0','_c1'],axis=1,inplace=True)     
-    
-    return df
+    # letras=sorted(df0['_c1'].drop_duplicates().to_list(),reverse=False)
+    # cols=[]
+    # for i in letras:
+    #     col1=None
+    #     col1=[]
+    #     for j in range(0,len(df0)):            
+    #         if df0.loc[j,'_c1']==i:
+    #             col1.append(str(df0.loc[j,'_c2']))
+    #     col1=':'.join(sorted(col1,reverse=False))
+    #     lista=[i,col1]
+    #     cols.append(lista)
+    # df=pd.DataFrame(cols)
+    # df.set_axis(['_c0','_c1'],axis=1,inplace=True)     
+    # return df
 
 
 def pregunta_11():
