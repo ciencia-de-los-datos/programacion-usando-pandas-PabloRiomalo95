@@ -190,9 +190,9 @@ def pregunta_11():
     37   37  a,c,e,f
     38   38      d,e
     39   39    a,d,f
-    """
+    """    
     df_y=pd.DataFrame(df1)
-    df=df_y.groupby(['_c0']).agg({'_c4': lambda x: sorted(x.tolist(),reverse=False)})
+    df=df_y.groupby(['_c0'],as_index=False).agg({'_c4': lambda x: sorted(x.tolist(),reverse=False)})
     df['_c4']=[','.join(map(str, e)) for e in df['_c4']] 
     return df
 
@@ -211,8 +211,13 @@ def pregunta_12():
     37   37                    eee:0,fff:2,hhh:6
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
-    """
-    pass
+    """    
+    df=pd.DataFrame(df2)
+    df['_c5']=df['_c5a']+':'+df['_c5b'].astype(str)
+    df=df[['_c0','_c5']]
+    df=df.groupby(['_c0'],as_index=False).agg({'_c5': lambda x: sorted(x.tolist(),reverse=False)})
+    df['_c5']=[','.join(map(str, e)) for e in df['_c5']] 
+    return df
 
 
 def pregunta_13():
@@ -229,4 +234,7 @@ def pregunta_13():
     E    275
     Name: _c5b, dtype: int64
     """
-    pass
+    df=pd.merge(df0,df2,left_on='_c0',right_on='_c0',how='outer')
+    df=df[['_c1','_c5b']]
+    df=df.groupby(['_c1'])['_c5b'].sum()
+    return df
