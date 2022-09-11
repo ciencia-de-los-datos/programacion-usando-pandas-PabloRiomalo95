@@ -191,19 +191,9 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    nums=sorted(df1['_c0'].drop_duplicates().to_list(),reverse=False)
-    cols=[]
-    for i in nums:
-        col1=None
-        col1=[]
-        for j in range(0,len(df1)):
-            if i==df1.loc[j,'_c0']:
-                col1.append(df1.loc[j,'_c4'])
-        col1=','.join(sorted(col1,reverse=False))
-        lista=[i,col1]
-        cols.append(lista)
-    df=pd.DataFrame(cols)
-    df.set_axis(['_c0','_c4'],axis=1,inplace=True)   
+    df_y=pd.DataFrame(df1)
+    df=df_y.groupby(['_c0']).agg({'_c4': lambda x: sorted(x.tolist(),reverse=False)})
+    df['_c4']=[','.join(map(str, e)) for e in df['_c4']] 
     return df
 
 
