@@ -9,9 +9,9 @@ Utilice los archivos `tbl0.tsv`, `tbl1.tsv` y `tbl2.tsv`, para resolver las preg
 """
 import pandas as pd
 
-tbl0 = pd.read_csv("tbl0.tsv", sep="\t")
-tbl1 = pd.read_csv("tbl1.tsv", sep="\t")
-tbl2 = pd.read_csv("tbl2.tsv", sep="\t")
+df0 = pd.read_csv("tbl0.tsv", sep="\t")
+df1 = pd.read_csv("tbl1.tsv", sep="\t")
+df2 = pd.read_csv("tbl2.tsv", sep="\t")
 
 
 def pregunta_01():
@@ -20,9 +20,9 @@ def pregunta_01():
 
     Rta/
     40
-
     """
-    return
+    rows=df0.shape[0]
+    return rows
 
 
 def pregunta_02():
@@ -31,9 +31,9 @@ def pregunta_02():
 
     Rta/
     4
-
     """
-    return
+    columnas=df0.shape[1]
+    return columnas
 
 
 def pregunta_03():
@@ -48,9 +48,9 @@ def pregunta_03():
     D     6
     E    14
     Name: _c1, dtype: int64
-
     """
-    return
+    col1=df0.groupby(['_c1'])['_c1'].count()
+    return col1
 
 
 def pregunta_04():
@@ -65,7 +65,8 @@ def pregunta_04():
     E    4.785714
     Name: _c2, dtype: float64
     """
-    return
+    promedio=df0.groupby(['_c1'])['_c2'].mean()
+    return promedio
 
 
 def pregunta_05():
@@ -82,7 +83,8 @@ def pregunta_05():
     E    9
     Name: _c2, dtype: int64
     """
-    return
+    maximo=df0.groupby(['_c1'])['_c2'].max()
+    return maximo
 
 
 def pregunta_06():
@@ -94,7 +96,8 @@ def pregunta_06():
     ['A', 'B', 'C', 'D', 'E', 'F', 'G']
 
     """
-    return
+    letras=sorted(df1['_c4'].str.upper().drop_duplicates().to_list(),reverse=False)
+    return letras
 
 
 def pregunta_07():
@@ -110,7 +113,8 @@ def pregunta_07():
     E    67
     Name: _c2, dtype: int64
     """
-    return
+    rta=df0.groupby(['_c1'])['_c2'].sum()
+    return rta
 
 
 def pregunta_08():
@@ -128,7 +132,8 @@ def pregunta_08():
     39   39   E    5  1998-01-26    44
 
     """
-    return
+    df0['suma']=df0['_c0']+df0['_c2']
+    return df0
 
 
 def pregunta_09():
@@ -144,9 +149,9 @@ def pregunta_09():
     37   37   C    9  1997-07-22  1997
     38   38   E    1  1999-09-28  1999
     39   39   E    5  1998-01-26  1998
-
     """
-    return
+    df0['year']=df0['_c3'].str.slice(start=0,stop=4)
+    return df0
 
 
 def pregunta_10():
@@ -163,7 +168,11 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    return
+    df_x=df0[['_c1','_c2']]
+    df=df_x.groupby(['_c1']).agg({'_c2': lambda x: sorted(x.tolist(),reverse=False)})
+    df['_c2']=[':'.join(map(str, e)) for e in df['_c2']]
+    # df.rename(columns={'_c1':'_c0','_c2':'_c1'},inplace=True)
+    return df
 
 
 def pregunta_11():
@@ -181,8 +190,11 @@ def pregunta_11():
     37   37  a,c,e,f
     38   38      d,e
     39   39    a,d,f
-    """
-    return
+    """    
+    df_y=pd.DataFrame(df1)
+    df=df_y.groupby(['_c0'],as_index=False).agg({'_c4': lambda x: sorted(x.tolist(),reverse=False)})
+    df['_c4']=[','.join(map(str, e)) for e in df['_c4']] 
+    return df
 
 
 def pregunta_12():
@@ -199,8 +211,13 @@ def pregunta_12():
     37   37                    eee:0,fff:2,hhh:6
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
-    """
-    return
+    """    
+    df=pd.DataFrame(df2)
+    df['_c5']=df['_c5a']+':'+df['_c5b'].astype(str)
+    df=df[['_c0','_c5']]
+    df=df.groupby(['_c0'],as_index=False).agg({'_c5': lambda x: sorted(x.tolist(),reverse=False)})
+    df['_c5']=[','.join(map(str, e)) for e in df['_c5']] 
+    return df
 
 
 def pregunta_13():
@@ -217,4 +234,7 @@ def pregunta_13():
     E    275
     Name: _c5b, dtype: int64
     """
-    return
+    df=pd.merge(df0,df2,left_on='_c0',right_on='_c0',how='outer')
+    df=df[['_c1','_c5b']]
+    df=df.groupby(['_c1'])['_c5b'].sum()
+    return df
