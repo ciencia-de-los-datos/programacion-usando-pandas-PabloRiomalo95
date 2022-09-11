@@ -169,9 +169,9 @@ def pregunta_10():
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
     df_x=df0[['_c1','_c2']]
-    df_x.rename(columns={'_c1':'_c0','_c2':'_c1'},inplace=True)
-    df=df_x.groupby(['_c0']).agg({'_c1': lambda x: sorted(x.tolist(),reverse=False)})
-    df['_c1']=[':'.join(map(str, e)) for e in df['_c1']] 
+    df=df_x.groupby(['_c1']).agg({'_c2': lambda x: sorted(x.tolist(),reverse=False)})
+    df['_c2']=[':'.join(map(str, e)) for e in df['_c2']]
+    # df.rename(columns={'_c1':'_c0','_c2':'_c1'},inplace=True)
     return df
 
 
